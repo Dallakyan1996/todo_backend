@@ -69,7 +69,7 @@ class todoController {
 
     async getTasks(req, res) {
         let userID = jwt_decode(req.headers.authorization.split(' ')[1]);
-        // console.log(userID.id)
+        console.log(req.headers.authorization)
         try {
             const tasks = await Task.find({ userID: userID.id });
             res.json(tasks)

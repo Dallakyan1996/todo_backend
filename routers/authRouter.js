@@ -3,7 +3,6 @@ const { check } = require('express-validator')
 const controller = require('../controllers/authController')
 const authMiddleware = require('../middleware/authMiddleware')
 const router = new Router()
-
 router.post('/registration', [
     check("email", "Mail-ը լրացված չէ").notEmpty(),
     check("firstName", "Անունը լրացված չէ").notEmpty(),
