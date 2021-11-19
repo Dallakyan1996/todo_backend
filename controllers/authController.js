@@ -46,6 +46,7 @@ class authController {
             if (!user) {
                 res.status(400).json({ message: `${email} չի գտնվել։` })
             }
+            console.log(user)
             const { firstName, lastName, birthDay, gender } = user
             const validPassword = bcrypt.compareSync(password, user.password)
             if (!validPassword) {
