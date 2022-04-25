@@ -41,26 +41,23 @@ class authController {
     async login(req, res) {
         try {
             const { email, password } = req.body
-
             const user = await User.findOne({ email })
             if (!user) {
-                res.status(400).json({ message: `${email} չի գտնվել։` })
+                res.status(400).json({ message: 'Գաղտնաբառը կամ mail-ը սխալ է։' })
             }
-            console.log(user)
-            const { firstName, lastName, birthDay, gender } = user
-            const validPassword = bcrypt.compareSync(password, user.password)
-            if (!validPassword) {
-                res.status(400).json({ message: 'Գաղտնաբառը սխալ է։' })
+            else {
+                const { firstName, lastName, birthDay, gender } = user
+                const token = generateAccessToken(user._id, user.roles)
+                const validPassword = bcrypt.compareSync(password, user.password)
+                if (!validPassword) {
+                    res.status(400).json({ message: 'Գաղտնաբառը սխալ է։' })
+                }
+                return res.status(200).send({ firstName, lastName, birthDay, gender, token })
             }
-
-            const token = generateAccessToken(user._id, user.roles)
-
-
-            return res.status(200).send({ firstName, lastName, birthDay, gender, token })
 
         } catch (e) {
             console.log(e)
-            res.status(400).json({ message: 'Login error' })
+            res.status(400).json({ message: 'Գաղտնաբառը կամ mail-ը սխալ է։' })
         }
     }
 
